@@ -41,6 +41,22 @@ class AutomatoFinitoDeterministico:
         self.estadosFinais = estadosFinais;
 
 
+    def  ler_cadeia(self, cadeia):
+
+        estadoAtual = self.estadoInicial;
+        
+        for caractere in cadeia:
+
+            #pega as funções de transição que o estadoAtual possui
+            lista_relacoes_atuais = [relacao for relacao in self.relacoes if relacao[0] == estadoAtual]
+
+            #busca o novo estado após ler o caractere
+            estadoAtual = [qf for (qi, x, qf) in lista_relacoes_atuais if x == caractere]
+            estadoAtual = estadoAtual[0]
+
+        return estadoAtual in self.estadosFinais;
+
+
     def __str__(self):
         _str = "({}, {},".format(self.estados, self.alfabeto);
 
