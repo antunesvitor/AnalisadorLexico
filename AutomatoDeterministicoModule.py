@@ -41,8 +41,8 @@ class AutomatoFinitoDeterministico:
         self.estadosFinais = estadosFinais;
 
 
-    def  ler_cadeia(self, cadeia):
-
+    def  buscar_estado_final_leitura(self, cadeia):
+        """Retorna o estado final do AFD após ler a cadeia"""
         estadoAtual = self.estadoInicial;
         
         for caractere in cadeia:
@@ -54,7 +54,13 @@ class AutomatoFinitoDeterministico:
             estadoAtual = [qf for (qi, x, qf) in lista_relacoes_atuais if x == caractere]
             estadoAtual = estadoAtual[0]
 
-        return estadoAtual in self.estadosFinais;
+        return estadoAtual;
+
+    def validar_cadeia(self, cadeia):
+        """Retorna true caso o ultimo estado do AFD após ler a cadeia é um estado final (aceita) ou false caso contrário (rejeita)"""
+        estado_final_leitura = self.buscar_estado_final_leitura(cadeia);
+
+        return estado_final_leitura in self.estadosFinais;
 
 
     def __str__(self):

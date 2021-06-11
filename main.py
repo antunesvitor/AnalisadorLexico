@@ -25,7 +25,7 @@ def main():
 
     for cadeia in cadeias:
 
-        if primeiro_dfa.ler_cadeia(cadeia):
+        if primeiro_dfa.validar_cadeia(cadeia):
             print("AFD aceita {}".format(cadeia));
         else:
             print("AFD não aceita {}".format(cadeia));
