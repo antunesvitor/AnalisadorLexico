@@ -14,7 +14,7 @@ class AutomatoFinitoDeterministico:
 
     def __verificar_caractere(self, caractere):
         if not caractere in self.alfabeto:
-            raise ValueError("O estado {} não pertence ao conjunto de estados".format(caractere));
+            raise ValueError("O caractere {} não pertence ao alfabeto".format(caractere));
 
     def __init__(self, estados, alfabeto, relacoes, estadoInicial, estadosFinais):
         self.estados = estados;
@@ -22,13 +22,13 @@ class AutomatoFinitoDeterministico:
 
         #validar se os estados estão na lista de estados e se o simbolo lido
         #e validar se o símbolo lido também está no alfabeto
-        for (qi, i, qf) in relacoes:
+        for (qi, simbolos, qf) in relacoes:
 
             self.__verificar_estado(qi);
             self.__verificar_estado(qf);
 
-            if (not i in estados):
-                self.__verificar_caractere(i)
+            for simbolo in simbolos:
+                self.__verificar_caractere(simbolo)
 
         self.relacoes = relacoes;
 
