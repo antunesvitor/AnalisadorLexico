@@ -51,8 +51,12 @@ class AutomatoFinitoDeterministico:
             lista_relacoes_atuais = [relacao for relacao in self.relacoes if relacao[0] == estadoAtual]
 
             #busca o novo estado após ler o caractere
-            estadoAtual = [qf for (qi, x, qf) in lista_relacoes_atuais if x == caractere]
-            estadoAtual = estadoAtual[0]
+            estadoNovo = [qf for (qi, x, qf) in lista_relacoes_atuais if caractere in x]
+
+            if estadoNovo == None or estadoNovo == []:
+                return None
+
+            estadoAtual = estadoNovo[0]
 
         return estadoAtual;
 
