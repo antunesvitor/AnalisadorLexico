@@ -60,6 +60,53 @@ class AutomatoFinitoDeterministico:
 
         return estadoAtual;
 
+    def analisar_cadeia(self, cadeia):
+        """Retorna uma lista ordenada de estados finais encontrados"""
+
+        estadoAtual = self.estadoInicial;
+        listaDeTokensEncontrados = []
+        i = 0
+        while i < len(cadeia):
+            
+            #pega as funções de transição que o estadoAtual possui
+            lista_relacoes_atuais = [relacao for relacao in self.relacoes if relacao[0] == estadoAtual]
+            
+            caractere = cadeia[i]
+
+            #busca o novo estado após ler o caractere
+            estadoNovo = [qf for (qi, x, qf) in lista_relacoes_atuais if caractere in x]
+
+            # print('esta em {} leu {} e vai para {}'.format(estadoAtual, caractere, estadoNovo))
+
+            if estadoNovo == [] or estadoNovo == None:
+
+                # estadoNovo é invalido, isto é, precisa retornar a origem pois não é possível formar um token valido
+                # mesmo assim None deve ser gravado mostrando que não é possível formar token em parte da cadeia
+                # isso é suficiente para erguer um erro e interromper uma compilação
+                estadoAtual = self.estadoInicial;
+                listaDeTokensEncontrados.append(None)
+
+            elif estadoAtual in self.estadosFinais and self.estadoInicial in estadoNovo: 
+
+                #verifica se encontrou um token e precisa retornar o simbolo
+                listaDeTokensEncontrados.append(estadoAtual)
+                estadoAtual = self.estadoInicial
+
+                # como isso significa o fim de um token e inicio de outro, 
+                # precisamos retornar uma posição para ele ler esse caratere novamente mas partindo do estado inicial
+                i -= 1 
+
+            else:
+                estadoAtual = estadoNovo[0]
+
+            i += 1
+
+        if estadoAtual in self.estadosFinais:
+            listaDeTokensEncontrados.append(estadoAtual);
+
+        return listaDeTokensEncontrados
+
+
     def validar_cadeia(self, cadeia):
         """Retorna true caso o ultimo estado do AFD após ler a cadeia é um estado final (aceita) ou false caso contrário (rejeita)"""
         estado_final_leitura = self.buscar_estado_final_leitura(cadeia);
